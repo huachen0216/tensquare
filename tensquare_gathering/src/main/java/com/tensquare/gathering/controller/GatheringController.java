@@ -1,10 +1,10 @@
-package com.tensquare.article.controller;
+package com.tensquare.gathering.controller;
 
 import com.fathua.entity.PageResult;
 import com.fathua.entity.Result;
 import com.fathua.entity.StatusCode;
-import com.tensquare.article.pojo.Article;
-import com.tensquare.article.service.ArticleService;
+import com.tensquare.gathering.pojo.Gathering;
+import com.tensquare.gathering.service.GatheringService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -17,23 +17,12 @@ import java.util.Map;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("/article")
-public class ArticleController {
+@RequestMapping("/gathering")
+public class GatheringController {
 
 	@Autowired
-	private ArticleService articleService;
-
-	@RequestMapping(value = "/examine/{id}", method = RequestMethod.PUT)
-	public Result examine(@PathVariable String id) {
-		articleService.updateState(id);
-		return new Result(true, StatusCode.OK, "审核成功");
-	}
-
-	@RequestMapping(value = "/thumbup/{id}", method = RequestMethod.PUT)
-	public Result thumbup(@PathVariable String id) {
-		articleService.addThumbup(id);
-		return new Result(true, StatusCode.OK, "点赞成功");
-	}
+	private GatheringService gatheringService;
+	
 	
 	/**
 	 * 查询全部数据
@@ -41,7 +30,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(method= RequestMethod.GET)
 	public Result findAll(){
-		return new Result(true, StatusCode.OK,"查询成功",articleService.findAll());
+		return new Result(true, StatusCode.OK,"查询成功",gatheringService.findAll());
 	}
 	
 	/**
@@ -51,7 +40,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.GET)
 	public Result findById(@PathVariable String id){
-		return new Result(true,StatusCode.OK,"查询成功",articleService.findById(id));
+		return new Result(true,StatusCode.OK,"查询成功",gatheringService.findById(id));
 	}
 
 
@@ -64,8 +53,8 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="/search/{page}/{size}",method=RequestMethod.POST)
 	public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
-		Page<Article> pageList = articleService.findSearch(searchMap, page, size);
-		return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Article>(pageList.getTotalElements(), pageList.getContent()) );
+		Page<Gathering> pageList = gatheringService.findSearch(searchMap, page, size);
+		return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Gathering>(pageList.getTotalElements(), pageList.getContent()) );
 	}
 
 	/**
@@ -75,27 +64,27 @@ public class ArticleController {
      */
     @RequestMapping(value="/search",method = RequestMethod.POST)
     public Result findSearch( @RequestBody Map searchMap){
-        return new Result(true,StatusCode.OK,"查询成功",articleService.findSearch(searchMap));
+        return new Result(true,StatusCode.OK,"查询成功",gatheringService.findSearch(searchMap));
     }
 	
 	/**
 	 * 增加
-	 * @param article
+	 * @param gathering
 	 */
 	@RequestMapping(method=RequestMethod.POST)
-	public Result add(@RequestBody Article article  ){
-		articleService.add(article);
+	public Result add(@RequestBody Gathering gathering  ){
+		gatheringService.add(gathering);
 		return new Result(true,StatusCode.OK,"增加成功");
 	}
 	
 	/**
 	 * 修改
-	 * @param article
+	 * @param gathering
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.PUT)
-	public Result update(@RequestBody Article article, @PathVariable String id ){
-		article.setId(id);
-		articleService.update(article);		
+	public Result update(@RequestBody Gathering gathering, @PathVariable String id ){
+		gathering.setId(id);
+		gatheringService.update(gathering);		
 		return new Result(true,StatusCode.OK,"修改成功");
 	}
 	
@@ -105,7 +94,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value="/{id}",method= RequestMethod.DELETE)
 	public Result delete(@PathVariable String id ){
-		articleService.deleteById(id);
+		gatheringService.deleteById(id);
 		return new Result(true,StatusCode.OK,"删除成功");
 	}
 	
