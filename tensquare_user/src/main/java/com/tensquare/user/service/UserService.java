@@ -4,20 +4,20 @@ import com.fathua.util.IdWorker;
 import com.tensquare.user.dao.UserDao;
 import com.tensquare.user.pojo.User;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,6 +37,46 @@ public class UserService {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
+
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
+    /**
+     * 增加用户
+     *
+     * @param mobile
+     */
+    public void sendSms(String mobile) {
+        // 生成6位随机数
+        String checkcode = RandomStringUtils.randomNumeric(6);
+        // 缓存中存一份
+        redisTemplate.opsForValue().set("checkcode_" + mobile, checkcode, 5, TimeUnit.MINUTES);
+        // 用户发一份
+        Map<String, String> smsMap = new HashMap<String, String>();
+        smsMap.put("mobile", mobile);
+        smsMap.put("checkcode", checkcode);
+//		rabbitTemplate.convertAndSend("sms", smsMap);
+        // 控制台显示
+        System.out.println("验证码: " + checkcode);
+    }
+
+    /**
+     *  用户登陆
+     *
+     * @param user
+     * @return
+     */
+    public User login(User user) {
+        User userLogin = userDao.findByMobile(user.getMobile());
+        if (userLogin != null && encoder.matches(user.getPassword(), userLogin.getPassword())) {
+            return userLogin;
+        } else {
+            return null;
+        }
+    }
 
 	/**
 	 * 查询全部列表
@@ -86,6 +126,14 @@ public class UserService {
 	 */
 	public void add(User user) {
 		user.setId( idWorker.nextId()+"" );
+		user.setPassword(encoder.encode(user.getPassword()));  //密码加密
+		user.setFollowcount(0);
+		user.setFanscount(0);
+		user.setOnline(0L);
+		user.setRegdate(new Date());
+		user.setUpdatedate(new Date());
+		user.setLastdate(new Date());
+
 		userDao.save(user);
 	}
 
@@ -165,19 +213,4 @@ public class UserService {
 
 	}
 
-	/**
-	 * 增加用户
-	 *
-	 * @param mobile
-	 */
-    public void sendSms(String mobile) {
-		// 生成6位随机数
-    	String checkcode = RandomStringUtils.randomNumeric(6);
-		// 缓存中存一份
-		redisTemplate.opsForValue().set("checkcode_" + mobile, checkcode, 5, TimeUnit.MINUTES);
-		// 用户发一份
-
-		// 控制台显示
-		System.out.println("验证码: " + checkcode);
-	}
 }

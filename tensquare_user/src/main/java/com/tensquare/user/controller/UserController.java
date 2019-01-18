@@ -5,8 +5,10 @@ import com.fathua.entity.Result;
 import com.fathua.entity.StatusCode;
 import com.tensquare.user.pojo.User;
 import com.tensquare.user.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -22,7 +24,31 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public Result login(@RequestBody User user) {
+        User userLogin = userService.login(user);
+        if (userLogin == null) {
+            return new Result(false, StatusCode.LOGINERROR, "登陆失败");
+        }
+        return new Result(true, StatusCode.OK, "登陆成功");
+    }
+	@RequestMapping(value = "/register/{code}", method = RequestMethod.POST)
+	public Result register(@PathVariable String code, @RequestBody User user) {
+		String checkCodeRedis = (String) redisTemplate.opsForValue().get("checkcode_" + user.getMobile());
+		if (StringUtils.isEmpty(checkCodeRedis)) {
+			return new Result(false, StatusCode.ERROR, "请重新获取验证码");
+		}
+		if (!StringUtils.equals(checkCodeRedis, code)) {
+			return new Result(false, StatusCode.ERROR, "验证码错误");
+		}
+		userService.add(user);
+		return new Result(true, StatusCode.OK, "注册成功");
+	}
+
 	@RequestMapping(value = "/sendsms/{mobile}", method = RequestMethod.POST)
 	public Result sendSms(@PathVariable String mobile) {
 		userService.sendSms(mobile);
