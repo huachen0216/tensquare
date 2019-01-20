@@ -1,6 +1,6 @@
 package com.tensquare.user.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.user.dao.UserDao;
 import com.tensquare.user.pojo.User;
 import org.apache.commons.lang3.RandomStringUtils;

@@ -1,6 +1,6 @@
 package com.tensquare.gathering.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.gathering.dao.GatheringDao;
 import com.tensquare.gathering.pojo.Gathering;
 import org.springframework.beans.factory.annotation.Autowired;

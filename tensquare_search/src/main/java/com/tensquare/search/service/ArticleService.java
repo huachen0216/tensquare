@@ -1,6 +1,6 @@
 package com.tensquare.search.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.search.dao.ArticleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

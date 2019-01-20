@@ -1,6 +1,6 @@
 package com.tensquare.recruit.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.recruit.dao.EnterpriseDao;
 import com.tensquare.recruit.pojo.Enterprise;
 import org.springframework.beans.factory.annotation.Autowired;

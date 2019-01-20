@@ -1,8 +1,8 @@
 package com.tensquare.article.controller;
 
-import com.fathua.entity.PageResult;
-import com.fathua.entity.Result;
-import com.fathua.entity.StatusCode;
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
 import com.tensquare.article.pojo.Channel;
 import com.tensquare.article.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;

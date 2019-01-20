@@ -1,6 +1,6 @@
 package com.tensquare.qa.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.qa.dao.ReplyDao;
 import com.tensquare.qa.pojo.Reply;
 import org.springframework.beans.factory.annotation.Autowired;

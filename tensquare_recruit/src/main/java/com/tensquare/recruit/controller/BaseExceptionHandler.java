@@ -1,7 +1,7 @@
 package com.tensquare.recruit.controller;
 
-import com.fathua.entity.Result;
-import com.fathua.entity.StatusCode;
+import entity.Result;
+import entity.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

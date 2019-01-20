@@ -1,4 +1,4 @@
-package com.fathua.entity;
+package entity;
 
 /**
  * @author huachen

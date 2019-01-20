@@ -1,8 +1,8 @@
 package com.tensquare.gathering.controller;
 
-import com.fathua.entity.PageResult;
-import com.fathua.entity.Result;
-import com.fathua.entity.StatusCode;
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
 import com.tensquare.gathering.pojo.Gathering;
 import com.tensquare.gathering.service.GatheringService;
 import org.springframework.beans.factory.annotation.Autowired;

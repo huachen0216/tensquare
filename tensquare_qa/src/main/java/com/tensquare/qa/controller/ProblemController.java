@@ -1,8 +1,8 @@
 package com.tensquare.qa.controller;
 
-import com.fathua.entity.PageResult;
-import com.fathua.entity.Result;
-import com.fathua.entity.StatusCode;
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
 import com.tensquare.qa.pojo.Problem;
 import com.tensquare.qa.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.tensquare.spit.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.spit.dao.SpitDao;
 import com.tensquare.spit.pojo.Spit;
 import org.springframework.beans.factory.annotation.Autowired;

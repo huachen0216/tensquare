@@ -1,6 +1,6 @@
 package com.tensquare.user.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.user.dao.AdminDao;
 import com.tensquare.user.pojo.Admin;
 import org.springframework.beans.factory.annotation.Autowired;

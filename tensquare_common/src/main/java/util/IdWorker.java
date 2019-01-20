@@ -1,4 +1,4 @@
-package com.fathua.util;
+package util;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;

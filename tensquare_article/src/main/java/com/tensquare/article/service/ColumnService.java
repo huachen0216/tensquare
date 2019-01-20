@@ -1,6 +1,6 @@
 package com.tensquare.article.service;
 
-import com.fathua.util.IdWorker;
+import util.IdWorker;
 import com.tensquare.article.dao.ColumnDao;
 import com.tensquare.article.pojo.Column;
 import org.springframework.beans.factory.annotation.Autowired;
