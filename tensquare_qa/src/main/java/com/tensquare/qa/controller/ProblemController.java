@@ -5,10 +5,13 @@ import entity.Result;
 import entity.StatusCode;
 import com.tensquare.qa.pojo.Problem;
 import com.tensquare.qa.service.ProblemService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import util.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -23,6 +26,9 @@ public class ProblemController {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @RequestMapping(value = "/newlist/{labelid}/{page}/{size}", method = RequestMethod.GET)
     public Result newlist(@PathVariable String labelid, @PathVariable int page, @PathVariable int size) {
@@ -99,6 +105,10 @@ public class ProblemController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public Result add(@RequestBody Problem problem) {
+        String token = (String) request.getAttribute("claims_user");
+        if (StringUtils.isEmpty(token)) {
+            return new Result(false, StatusCode.ACCESSERROR, "token验证失败");
+        }
         problemService.add(problem);
         return new Result(true, StatusCode.OK, "增加成功");
     }

@@ -8,7 +8,9 @@ import com.tensquare.user.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import util.JwtUtil;
 
+import java.util.HashMap;
 import java.util.Map;
 /**
  * 控制器层
@@ -23,13 +25,21 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public Result login(@RequestBody Admin admin) {
 		Admin adminLogin = adminService.login(admin);
 		if (adminLogin == null) {
 			return new Result(false, StatusCode.LOGINERROR, "登陆失败");
 		}
-		return new Result(true, StatusCode.OK, "登陆成功");
+		// 生成令牌
+		String token = jwtUtil.createJWT(adminLogin.getId(), adminLogin.getLoginname(), "admin");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("token", token);
+		map.put("role", "admin");
+		return new Result(true, StatusCode.OK, "登陆成功", map);
 	}
 
 	/**
