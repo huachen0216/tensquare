@@ -1,5 +1,6 @@
 package com.tensquare.qa.controller;
 
+import com.tensquare.qa.client.BaseClient;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
@@ -29,6 +30,14 @@ public class ProblemController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private BaseClient baseClient;
+
+    @RequestMapping(value = "/label/{labelId}", method = RequestMethod.GET)
+    public Result findByLableId(@PathVariable String labelId) {
+        return baseClient.findById(labelId);
+    }
 
     @RequestMapping(value = "/newlist/{labelid}/{page}/{size}", method = RequestMethod.GET)
     public Result newlist(@PathVariable String labelid, @PathVariable int page, @PathVariable int size) {

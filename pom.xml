@@ -19,6 +19,7 @@
             </plugin>
         </plugins>
     </build>
+
     <modules>
         <module>tensquare_common</module>
         <module>tensquare_base</module>
@@ -30,6 +31,7 @@
         <module>tensquare_search</module>
         <module>tensquare_user</module>
         <module>tensquare_sms</module>
+        <module>tensquare_eureka</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -66,6 +68,18 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Finchley.M9</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <repositories>
         <repository>

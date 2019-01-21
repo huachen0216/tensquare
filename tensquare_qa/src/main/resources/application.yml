@@ -14,3 +14,9 @@ spring:
 jwt:
   config:
     key: fathua
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer-ip-address: true #支持跨域访问

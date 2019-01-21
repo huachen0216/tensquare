@@ -19,3 +19,9 @@ jwt:
   config:
     key: fathua
     ttl: 3600000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:6868/eureka
+  instance:
+    prefer-ip-address: true #支持跨域访问
