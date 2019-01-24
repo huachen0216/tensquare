@@ -1,14 +1,18 @@
 package com.tensquare.base.controller;
 
+import com.tensquare.base.pojo.Label;
+import com.tensquare.base.service.LabelService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
-import com.tensquare.base.pojo.Label;
-import com.tensquare.base.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -18,13 +22,24 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@RefreshScope
 @RequestMapping("/label")
 public class LableController {
     @Autowired
     private LabelService labelService;
 
+    @Autowired
+    private HttpServletRequest request;
+
+    @Value("${ip}")
+    private String ip;
+
     @RequestMapping(method = RequestMethod.GET)
     public Result findAll() {
+        // 获取头信息
+        String header = request.getHeader("Authorization");
+        System.out.println(header);
+        System.out.println("ip: " + ip);
         return new Result(true, StatusCode.OK, "查询成功", labelService.findAll());
     }
 
@@ -35,7 +50,7 @@ public class LableController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Result save(@RequestBody Label label) {
-        int i = 10 / 0;
+//        int i = 10 / 0;
         labelService.save(label);
         return new Result(true, StatusCode.OK, "save成功");
     }
